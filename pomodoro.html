@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pomodoro Timer</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      background: #f7fbf5;
+      color: #31412f;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: #ffffff;
+      border: 1px solid #dbe8d4;
+      border-radius: 24px;
+      box-shadow: 0 12px 28px rgba(110, 145, 100, 0.10);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(180deg, #edf8e7 0%, #e4f3dc 100%);
+      padding: 24px 24px 18px;
+      border-bottom: 1px solid #dbe8d4;
+      text-align: center;
+    }
+
+    .title {
+      margin: 0;
+      font-size: 26px;
+      font-weight: 700;
+      color: #4f6948;
+    }
+
+    .subtitle {
+      margin: 8px 0 0;
+      font-size: 14px;
+      color: #7a9073;
+    }
+
+    .content {
+      padding: 28px 24px 30px;
+      text-align: center;
+    }
+
+    .mode {
+      display: inline-block;
+      margin-bottom: 16px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: #f1f8ed;
+      color: #5c7554;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .timer {
+      font-size: 64px;
+      font-weight: 800;
+      letter-spacing: -2px;
+      color: #3f5739;
+      margin: 10px 0 18px;
+    }
+
+    .progress-wrap {
+      width: 100%;
+      height: 14px;
+      background: #eef4ea;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #b9dfaa 0%, #92c780 100%);
+      transition: width 0.3s ease;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      border-radius: 14px;
+      padding: 12px 18px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    .start {
+      background: #cfeabd;
+      color: #416037;
+    }
+
+    .pause {
+      background: #eef5ea;
+      color: #62765c;
+    }
+
+    .reset {
+      background: #f5f5f5;
+      color: #777;
+    }
+
+    .info {
+      margin-top: 18px;
+      font-size: 13px;
+      color: #7f8f79;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 480px) {
+      .timer {
+        font-size: 52px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <h1 class="title">Pomodoro Timer</h1>
+      <p class="subtitle">50분 집중 · 10분 휴식</p>
+    </div>
+
+    <div class="content">
+      <div class="mode" id="modeLabel">작업 시간</div>
+      <div class="timer" id="timer">50:00</div>
+
+      <div class="progress-wrap">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+
+      <div class="buttons">
+        <button class="start" id="startBtn">시작</button>
+        <button class="pause" id="pauseBtn">일시정지</button>
+        <button class="reset" id="resetBtn">리셋</button>
+      </div>
+
+      <div class="info" id="infoText">
+        현재 1세트 시작 전입니다.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const WORK_TIME = 50 * 60;
+    const BREAK_TIME = 10 * 60;
+
+    let isWorkTime = true;
+    let timeLeft = WORK_TIME;
+    let timerId = null;
+    let sessionCount = 1;
+
+    const timerEl = document.getElementById("timer");
+    const modeLabelEl = document.getElementById("modeLabel");
+    const progressBarEl = document.getElementById("progressBar");
+    const infoTextEl = document.getElementById("infoText");
+
+    const startBtn = document.getElementById("startBtn");
+    const pauseBtn = document.getElementById("pauseBtn");
+    const resetBtn = document.getElementById("resetBtn");
+
+    function formatTime(seconds) {
+      const min = String(Math.floor(seconds / 60)).padStart(2, "0");
+      const sec = String(seconds % 60).padStart(2, "0");
+      return `${min}:${sec}`;
+    }
+
+    function updateUI() {
+      const total = isWorkTime ? WORK_TIME : BREAK_TIME;
+      const progress = ((total - timeLeft) / total) * 100;
+
+      timerEl.textContent = formatTime(timeLeft);
+      modeLabelEl.textContent = isWorkTime ? "작업 시간" : "휴식 시간";
+      infoTextEl.textContent = isWorkTime
+        ? `현재 ${sessionCount}세트 작업 중`
+        : `${sessionCount}세트 휴식 중`;
+
+      progressBarEl.style.width = `${progress}%`;
+    }
+
+    function switchMode() {
+      if (isWorkTime) {
+        isWorkTime = false;
+        timeLeft = BREAK_TIME;
+      } else {
+        isWorkTime = true;
+        sessionCount++;
+        timeLeft = WORK_TIME;
+      }
+      updateUI();
+    }
+
+    function tick() {
+      if (timeLeft > 0) {
+        timeLeft--;
+        updateUI();
+      } else {
+        switchMode();
+      }
+    }
+
+    function startTimer() {
+      if (timerId !== null) return;
+      timerId = setInterval(tick, 1000);
+    }
+
+    function pauseTimer() {
+      clearInterval(timerId);
+      timerId = null;
+    }
+
+    function resetTimer() {
+      pauseTimer();
+      isWorkTime = true;
+      timeLeft = WORK_TIME;
+      sessionCount = 1;
+      updateUI();
+      infoTextEl.textContent = "현재 1세트 시작 전입니다.";
+    }
+
+    startBtn.addEventListener("click", startTimer);
+    pauseBtn.addEventListener("click", pauseTimer);
+    resetBtn.addEventListener("click", resetTimer);
+
+    updateUI();
+  </script>
+</body>
+</html>
