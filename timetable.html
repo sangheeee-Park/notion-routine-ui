@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weekly Routine</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      background: #f8fbf6;
+      font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      color: #2f3a2f;
+    }
+
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #dfead9;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(100, 140, 100, 0.08);
+      overflow: hidden;
+    }
+
+    .header {
+      padding: 20px 24px 14px;
+      background: linear-gradient(180deg, #f3faee 0%, #edf8e7 100%);
+      border-bottom: 1px solid #dfead9;
+    }
+
+    .title {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+      color: #58714f;
+    }
+
+    .subtitle {
+      margin: 6px 0 0;
+      font-size: 13px;
+      color: #7b8f74;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 980px;
+      table-layout: fixed;
+    }
+
+    th, td {
+      border: 1px solid #e5eee1;
+      padding: 14px 10px;
+      text-align: center;
+      vertical-align: middle;
+      font-size: 14px;
+      line-height: 1.5;
+      word-break: keep-all;
+    }
+
+    thead th {
+      background: #dff2d3;
+      color: #47603f;
+      font-weight: 700;
+    }
+
+    tbody th {
+      background: #edf8e7;
+      color: #5b7453;
+      font-weight: 700;
+      width: 130px;
+    }
+
+    tbody td {
+      background: #ffffff;
+    }
+
+    tbody tr:nth-child(even) td {
+      background: #fcfefb;
+    }
+
+    .task {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #f2f8ee;
+      color: #4f6549;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .free {
+      background: #f7f7f7;
+      color: #888;
+    }
+
+    .study {
+      background: #eef7ff;
+      color: #4d6b86;
+    }
+
+    .empty {
+      color: #c8d3c3;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 14px;
+      }
+
+      .title {
+        font-size: 20px;
+      }
+
+      th, td {
+        padding: 10px 8px;
+        font-size: 13px;
+      }
+
+      .task {
+        font-size: 12px;
+        padding: 5px 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="header">
+        <h1 class="title">Weekly Routine</h1>
+        <p class="subtitle">주간 취준 루틴 시간표</p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>시간</th>
+              <th>월</th>
+              <th>화</th>
+              <th>수</th>
+              <th>목</th>
+              <th>금</th>
+              <th>토 &amp; 일</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>08:00</th>
+              <td><span class="task">기상</span></td>
+              <td><span class="task">기상</span></td>
+              <td><span class="task">기상</span></td>
+              <td><span class="task">기상</span></td>
+              <td><span class="task">기상</span></td>
+              <td><span class="task">기상</span></td>
+            </tr>
+            <tr>
+              <th>08:00~09:00</th>
+              <td><span class="task">준비+운동</span></td>
+              <td><span class="task">준비+운동</span></td>
+              <td><span class="task">준비+운동</span></td>
+              <td><span class="task">준비+운동</span></td>
+              <td><span class="task">준비+운동</span></td>
+              <td><span class="task">준비+운동</span></td>
+            </tr>
+            <tr>
+              <th>09:00~12:00</th>
+              <td><span class="task">잡 서칭 및 지원</span></td>
+              <td><span class="task">잡 서칭 및 지원</span></td>
+              <td><span class="task">잡 서칭 및 지원</span></td>
+              <td><span class="task">잡 서칭 및 지원</span></td>
+              <td><span class="task">잡 서칭 및 지원</span></td>
+              <td><span class="task free">자율</span></td>
+            </tr>
+            <tr>
+              <th>12:00~13:30</th>
+              <td><span class="task">점심+휴식</span></td>
+              <td><span class="task">점심+휴식</span></td>
+              <td><span class="task">점심+휴식</span></td>
+              <td><span class="task">점심+휴식</span></td>
+              <td><span class="task">점심+휴식</span></td>
+              <td><span class="task">점심+휴식</span></td>
+            </tr>
+            <tr>
+              <th>14:00~18:00</th>
+              <td><span class="task">자격증 및 코테 공부</span></td>
+              <td><span class="task">자격증 및 코테 공부</span></td>
+              <td><span class="task">자격증 및 코테 공부</span></td>
+              <td><span class="task">자격증 및 코테 공부</span></td>
+              <td><span class="task">자격증 및 코테 공부</span></td>
+              <td><span class="task free">자율</span></td>
+            </tr>
+            <tr>
+              <th>18:00~19:00</th>
+              <td><span class="task">복습</span></td>
+              <td><span class="task">복습</span></td>
+              <td><span class="task">복습</span></td>
+              <td><span class="task">복습</span></td>
+              <td><span class="task">복습</span></td>
+              <td><span class="task free">자율</span></td>
+            </tr>
+            <tr>
+              <th>20:00~22:00</th>
+              <td><span class="empty">—</span></td>
+              <td><span class="empty">—</span></td>
+              <td><span class="task study">각자 할 거 스터디</span></td>
+              <td><span class="empty">—</span></td>
+              <td><span class="empty">—</span></td>
+              <td><span class="empty">—</span></td>
+            </tr>
+            <tr>
+              <th>01:00</th>
+              <td><span class="task">취침</span></td>
+              <td><span class="task">취침</span></td>
+              <td><span class="task">취침</span></td>
+              <td><span class="task">취침</span></td>
+              <td><span class="task">취침</span></td>
+              <td><span class="task">취침</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
